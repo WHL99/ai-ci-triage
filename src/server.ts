@@ -1,7 +1,7 @@
-import { createApp } from "./app";
+import { createApp } from "./app"
 
-const port = Number(process.env.PORT ?? 3000);
+const port = Number(process.env.PORT ?? 3000)
 
 createApp().listen(port, () => {
-  console.log(`listening on http://localhost:${port}`);
-});
+  console.log(`listening on http://localhost:${port}`)
+})
