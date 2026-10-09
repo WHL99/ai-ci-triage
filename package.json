@@ -1,6 +1,7 @@
 {
   "name": "ai-ci-triage",
   "version": "1.0.0",
+  "private": true,
   "homepage": "https://github.com/WHL99/ai-ci-triage#readme",
   "bugs": {
     "url": "https://github.com/WHL99/ai-ci-triage/issues"
@@ -13,12 +14,17 @@
   "type": "commonjs",
   "scripts": {
     "test": "tsc && node --test 'dist/**/*.test.js'",
-    "build": "tsc",
-    "start": "node --env-file-if-exists=.env dist/server.js"
+    "type-check": "tsc --noEmit",
+    "build": "tsc -p tsconfig.build.json",
+    "clean": "rm -rf dist",
+    "start": "node --env-file-if-exists=.env dist/server.js",
+    "docker:build": "docker build --build-arg NODE_VERSION=$(cat .nvmrc) -t ai-ci-triage .",
+    "format": "prettier --write 'src/**/*.ts'"
   },
   "devDependencies": {
     "@tsconfig/node24": "^24.0.5",
     "@types/node": "^24.19.1",
+    "prettier": "^3.9.9",
     "typescript": "^7.0.2"
   }
 }
