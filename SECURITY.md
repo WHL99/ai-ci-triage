@@ -11,7 +11,7 @@ Legend:
 |:-------:|:-------:|:-------:|:-------:|
 | Push to a branch| ✅ | ✅ |🕓|
 | Push to `main`  | ❌ ruleset      | ❌ ruleset  | 🕓|
-| Merge a PR      |  ✅ via PR (CI check not required yet)|    ⚠️ `settings.json` (deny `gh pr merge`)             | 🕓|
+| Merge a PR      |  ✅ via PR + green `ci/verify` check|    ⚠️ `settings.json` (deny `gh pr merge`)             | 🕓|
 | Read `.env`     | ✅          | ⚠️ `settings.json` (deny `Read .env`)  | n/a: `.env` is gitignored |
 | Run a workflow on a branch | ✅ ¹ |✅ ¹ | 🕓|
 
