@@ -31,3 +31,16 @@ jobs:
 
       - name: Test
         run: npm run test
+
+      - name: Build Docker Image
+        run: npm run docker:build
+
+      - name: Smoke Test
+        id: smoke-test
+        run: |
+          docker run -d -p 3000:3000 --name app ai-ci-triage
+          curl --retry-connrefused --retry 5 --retry-delay 2 --retry-all-errors --fail http://localhost:3000/health
+
+      - name: Print Logs When Smoke Test fails
+        if: ${{ failure() && steps.smoke-test.conclusion == 'failure' }}
+        run: docker logs app
