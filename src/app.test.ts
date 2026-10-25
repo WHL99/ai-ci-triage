@@ -14,3 +14,16 @@ test("GET /health returns 200 with status ok", async (t) => {
   assert.equal(res.status, 200)
   assert.deepEqual(await res.json(), { status: "ok" })
 })
+
+test("GET /greeting returns 200 with good morning message", async (t) => {
+  const server = createApp().listen(0)
+  t.after(() => server.close())
+  await new Promise<void>((resolve) => server.once("listening", resolve))
+  const { port } = server.address() as AddressInfo
+
+  const res = await fetch(`http://localhost:${port}/greeting`)
+
+  const message = /Good morning! It is now /
+  assert.equal(res.status, 200)
+  assert.match((await res.text()).substring(0, 24), message)
+})
