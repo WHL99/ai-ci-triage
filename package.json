@@ -13,6 +13,7 @@
   "license": "ISC",
   "type": "commonjs",
   "scripts": {
+    "pretest": "sh scripts/check-node-version.sh",
     "test": "tsc && node --test --enable-source-maps 'dist/**/*.test.js'",
     "type-check": "tsc --noEmit",
     "build": "tsc -p tsconfig.build.json",
