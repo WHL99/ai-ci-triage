@@ -4,5 +4,5 @@
     "noEmit": true,
     "erasableSyntaxOnly": true
   },
-  "include": ["*.{mts,ts,cts}"]
+  "include": ["*.mts"]
 }
