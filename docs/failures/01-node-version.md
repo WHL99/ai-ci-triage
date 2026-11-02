@@ -63,7 +63,7 @@ The Test step log shows the `ReferenceError` and the `AssertionError`:
 
 ### What's the difference?
 
-**Type Check** passed, as I expected, because it did not run Node.
+**Type Check** passed, as I expected, because `tsc` only checks types against `tsconfig.json` and does not execute the code.
 
 **Test** failed, although I predicted it would pass. The test file itself does not use Temporal, but it starts the server from `app.ts` and requests `/greeting`. This means the test runs `greeting()` in `app.ts`, which calls the Temporal API, and CI runs on Node 24, where Temporal does not exist.
 
@@ -125,7 +125,7 @@ After my changes, the versions no longer matched:
 | `tsconfig.json` base | 26 |
 | `.nvmrc` (used by CI and the Docker image) | 24 |
 
-`tsc` only reads `tsconfig.json`, and my terminal used Node 26, so every check passed on my machine. The only place that still used Node 24 was CI.
+`tsc` only reads `tsconfig.json`, and my terminal used Node 26, so every check passed on my machine. Everything I ran on my own terminal used Node 26; CI still used Node 24.
 
 Nothing on my machine enforced `.nvmrc`, so I never saw a warning that my local Node did not match the project. A `pretest` script that checks whether my local Node version matches `.nvmrc` would have stopped me before I pushed.
 
