@@ -30,3 +30,12 @@ This project explores one question: how can an AI agent help diagnose
 CI failures without being trusted to decide what is correct? The agent
 is read-only and only explains failures. Tests, CI and human review
 remain the merge gate.
+
+
+## Failure catalog
+
+Each failure is injected on purpose on its own branch, so anyone can reproduce it. Each one has a write-up with my prediction, the actual CI result, the AI's diagnosis and the lessons.
+
+| # | Failure | Caught by | Write-up | Status |
+|---|---|---|---|---|
+| 01 | Code uses a Node 26 API, but CI runs Node 24 | Test step | [01-node-version](docs/failures/01-node-version.md) | ✅ done |
