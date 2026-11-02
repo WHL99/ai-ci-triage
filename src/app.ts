@@ -1,5 +1,5 @@
 import { createServer, type Server } from "node:http"
-const VATRATE: number = 0.19
+import { net2Gross, VATRATE } from "./helper"
 
 export function createApp(): Server {
   return createServer((req, res) => {
@@ -16,15 +16,13 @@ export function createApp(): Server {
         const raw = url.searchParams.get("net")
         const isValidPrice = raw !== null && /^\d+(\.\d{1,2})?$/.test(raw)
         if (isValidPrice) {
-          const netPrice: number = Number(raw)
-          const grossPrice: number = Number(
-            (netPrice * (1 + VATRATE)).toFixed(2),
-          )
+          const price = net2Gross(raw)
+          const grossPrice = Number((price * (1 + VATRATE)).toFixed(2))
 
           res.writeHead(200, { "content-type": "application/json" })
           res.end(
             JSON.stringify({
-              net: netPrice,
+              net: Number(raw),
               vatRate: VATRATE,
               gross: grossPrice,
             }),
