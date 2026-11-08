@@ -1,4 +1,5 @@
 import { createServer, type Server } from "node:http"
+import validator from "validator"
 const VATRATE: number = 0.19
 
 export function createApp(): Server {
@@ -14,7 +15,13 @@ export function createApp(): Server {
 
       if (req.method === "GET" && url.pathname === "/invoice") {
         const raw = url.searchParams.get("net")
-        const isValidPrice = raw !== null && /^\d+(\.\d{1,2})?$/.test(raw)
+        // const isValidPrice = raw !== null && /^\d+(\.\d{1,2})?$/.test(raw)
+
+        const isValidPrice =
+          raw !== null &&
+          validator.isFloat(raw, { min: 0 }) &&
+          validator.isDecimal(raw, { decimal_digits: "1,2" })
+
         if (isValidPrice) {
           const netPrice: number = Number(raw)
           const grossPrice: number = Number(

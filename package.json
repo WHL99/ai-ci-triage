@@ -25,7 +25,11 @@
   "devDependencies": {
     "@tsconfig/node24": "^24.0.5",
     "@types/node": "^24.19.1",
+    "@types/validator": "^13.15.10",
     "prettier": "^3.9.9",
     "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "validator": "^13.15.35"
   }
 }
