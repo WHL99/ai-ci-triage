@@ -40,3 +40,4 @@ Each failure is injected on purpose on its own branch, so anyone can reproduce i
 |---|---|---|---|---|
 | 01 | Code uses a Node 26 API, but CI runs Node 24 | Test step | [01-node-version](docs/failures/01-node-version.md) | ✅ done |
 | 02 | Failing test | Test step | [02-failing-test](docs/failures/02-failing-test.md) | ✅ done |
+| 03 | NODE_ENV=production in the build stage | Build Docker Image step | [03-docker-env](docs/failures/03-docker-env.md) | ✅ done |
