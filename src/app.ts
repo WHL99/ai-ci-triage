@@ -1,5 +1,6 @@
 import { createServer, type Server } from "node:http"
-const VATRATE: number = 0.19
+const VAT_PERCENT: number = 19
+const VAT_RATE: number = VAT_PERCENT / 100
 
 export function createApp(): Server {
   return createServer((req, res) => {
@@ -16,16 +17,17 @@ export function createApp(): Server {
         const raw = url.searchParams.get("net")
         const isValidPrice = raw !== null && /^\d+(\.\d{1,2})?$/.test(raw)
         if (isValidPrice) {
+          // Calculate in integer cents, so rounding is not affected by binary floating-point errors
           const netPrice: number = Number(raw)
-          const grossPrice: number = Number(
-            (netPrice * (1 + VATRATE)).toFixed(2),
-          )
+          const netCents = Math.round(netPrice * 100)
+          const grossCents = Math.round((netCents * (100 + VAT_PERCENT)) / 100)
+          const grossPrice = grossCents / 100
 
           res.writeHead(200, { "content-type": "application/json" })
           res.end(
             JSON.stringify({
               net: netPrice,
-              vatRate: VATRATE,
+              vatRate: VAT_RATE,
               gross: grossPrice,
             }),
           )
