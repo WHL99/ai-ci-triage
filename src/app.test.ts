@@ -38,6 +38,8 @@ const validCases = [
     expected: { net: 19.99, vatRate: 0.19, gross: 23.79 },
   },
   { query: "?net=100", expected: { net: 100, vatRate: 0.19, gross: 119 } },
+  { query: "?net=0.50", expected: { net: 0.5, vatRate: 0.19, gross: 0.6 } },
+  { query: "?net=3.50", expected: { net: 3.5, vatRate: 0.19, gross: 4.17 } },
 ]
 
 for (const { query, expected } of validCases) {
