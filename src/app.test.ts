@@ -19,7 +19,14 @@ test("GET /health returns 200 with status ok", async (t) => {
   assert.deepEqual(await res.json(), { status: "ok" })
 })
 
-const invalidQueries = ["", "?net=", "?net=-1", "?net=xyz"]
+const invalidQueries = [
+  "",
+  "?net=",
+  "?net=-1",
+  "?net=xyz",
+  "?net=1e3",
+  "?net=19.999",
+]
 
 for (const query of invalidQueries) {
   test(`GET /invoice${query} returns 400 with invalid price`, async (t) => {
@@ -38,6 +45,7 @@ const validCases = [
     expected: { net: 19.99, vatRate: 0.19, gross: 23.79 },
   },
   { query: "?net=100", expected: { net: 100, vatRate: 0.19, gross: 119 } },
+  { query: "?net=19.9", expected: { net: 19.9, vatRate: 0.19, gross: 23.68 } },
 ]
 
 for (const { query, expected } of validCases) {

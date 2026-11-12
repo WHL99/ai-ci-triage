@@ -2,6 +2,7 @@ ARG NODE_VERSION
 
 # ===== first stage: build =====
 FROM node:${NODE_VERSION}-alpine3.23 AS build
+ENV NODE_ENV=production
 WORKDIR /app
 
 COPY ./package.json ./
@@ -19,6 +20,7 @@ WORKDIR /app
 
 COPY --from=build /app/dist/ ./dist/
 COPY ./package.json ./
+RUN npm ci
 
 USER node
 EXPOSE 3000
