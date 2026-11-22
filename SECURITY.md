@@ -9,12 +9,15 @@ Legend:
 
 | Action | Me (human gate) | Local Claude Code (acts with my GitHub identity) | Triage Agent (planned)|
 |:-------:|:-------:|:-------:|:-------:|
-| Push to a branch| ✅ | ✅ |🕓|
-| Push to `main`  | ❌ ruleset      | ❌ ruleset  | 🕓|
-| Merge a PR      |  ✅ via PR + green `ci/verify` check|    ⚠️ `settings.json` (deny `gh pr merge`)             | 🕓|
+| Push to a branch| ✅ | ✅ |🕓 planned: 🔒 read-only token, no shell tool|
+| Push to `main`  | ❌ ruleset      | ❌ ruleset  |🕓 planned: 🔒 + ❌ ruleset |
+| Merge a PR      |  ✅ via PR + green `ci/verify` check| ⚠️ `settings.json` (deny `gh pr merge`)|🕓 planned: 🔒 read-only token|
 | Read `.env`     | ✅          | ⚠️ `settings.json` (deny `Read .env`)  | n/a: `.env` is gitignored |
-| Run a workflow on a branch | ✅ ¹ |✅ ¹ | 🕓|
-| Edit files in the working tree | ✅ | ⚠️ permission prompt, manual mode only | 🕓 |
+| Run a workflow on a branch | ✅ ¹ |✅ ¹ |🕓 planned: 🔒 cannot push |
+| Edit files in the working tree | ✅ | ⚠️ permission prompt, manual mode only | 🕓 planned: no edit tools; the runner is discarded |
+| Run code from the PR | ✅ | ✅ | 🕓 planned: no shell tool |
+| Comment on a PR | ✅ | ✅ | 🕓 planned: only the separate `comment` job can |
+| Secrets it can use | all mine | my GitHub identity | 🕓 planned: Claude API key only |
 
 ¹ Runs before any review. No secrets are stored yet; mitigation planned for M4.
 
