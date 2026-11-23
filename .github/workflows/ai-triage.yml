@@ -37,6 +37,11 @@ jobs:
           path: pr-checkout
           persist-credentials: false
 
+      - name: Remove  AI agent configuration from the checked-out code
+        run: |
+          find pr-checkout \( -name CLAUDE.md -o -name CLAUDE.local.md -o -name .mcp.json \) -type f -delete
+          find pr-checkout -name .claude -type d -prune -exec rm -rf {} +
+
       - name: Claude diagnoses the failure
         id: triage
         uses: anthropics/claude-code-action@v1
@@ -63,7 +68,7 @@ jobs:
             - how confident you are, and what you could not check
 
           claude_args: |
-            --max-turns 10
+            --max-turns 30
             --allowedTools 'Read,Grep,Glob'
             --tools 'Read,Grep,Glob'
             --json-schema '{"type":"object","properties":{"diagnosis":{"type":"string"}},"required":["diagnosis"]}'
