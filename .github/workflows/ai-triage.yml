@@ -63,7 +63,7 @@ jobs:
             - how confident you are, and what you could not check
 
           claude_args: |
-            --max-turns 5
+            --max-turns 10
             --allowedTools 'Read,Grep,Glob'
             --json-schema '{"type":"object","properties":{"diagnosis":{"type":"string"}},"required":["diagnosis"]}'
 
