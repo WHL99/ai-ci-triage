@@ -73,6 +73,7 @@ jobs:
           EXECUTION_FILE: ${{ steps.triage.outputs.execution_file }}
         run: |
           jq '.[] | select(.type == "result") | {num_turns, total_cost_usd, duration_ms, usage}' "$EXECUTION_FILE"
+          jq '[.[] | select(.type == "assistant") | .message.content[]? | select(.type == "tool_use") | {name, input}]' "$EXECUTION_FILE"
 
   comment:
     needs: diagnose
