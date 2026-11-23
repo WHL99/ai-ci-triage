@@ -42,6 +42,7 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.CLAUDE_API_KEY_AI_CI_TRIAGE }}
+          github_token: ${{ github.token }}
           prompt: |
             A CI run failed on a pull request. Please diagnose why.
 
@@ -66,6 +67,13 @@ jobs:
             --allowedTools 'Read,Grep,Glob'
             --json-schema '{"type":"object","properties":{"diagnosis":{"type":"string"}},"required":["diagnosis"]}'
 
+      - name: Show the triage cost
+        if: always()
+        env:
+          EXECUTION_FILE: ${{ steps.triage.outputs.execution_file }}
+        run: |
+          jq '.[] | select(.type == "result") | {num_turns, total_cost_usd, duration_ms, usage}' "$EXECUTION_FILE"
+
   comment:
     needs: diagnose
     if: needs.diagnose.outputs.result != '' && github.event.workflow_run.pull_requests[0].number
@@ -82,10 +90,3 @@ jobs:
         run: |
           echo "$RESULT" | jq -r '.diagnosis' > diagnosis.md
           gh pr comment "$PR_NR" --body-file diagnosis.md
-
-      - name: Show the triage cost
-        if: always()
-        env:
-          EXECUTION_FILE: ${{ steps.triage.outputs.execution_file }}
-        run: |
-          jq '.[] | select(.type == "result") | {num_turns, total_cost_usd, duration_ms, usage}' "$EXECUTION_FILE"
