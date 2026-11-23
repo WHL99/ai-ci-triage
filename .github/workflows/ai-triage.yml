@@ -65,6 +65,7 @@ jobs:
           claude_args: |
             --max-turns 10
             --allowedTools 'Read,Grep,Glob'
+            --tools 'Read,Grep,Glob'
             --json-schema '{"type":"object","properties":{"diagnosis":{"type":"string"}},"required":["diagnosis"]}'
 
       - name: Show the triage cost
